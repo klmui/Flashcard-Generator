@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function App() {
+  const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
   return (
     <h1>Hello</h1>
   );
