@@ -5,7 +5,8 @@ import axios from 'axios';
 
 function App() {
   // States
-  const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
+  //const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
+  const [flashcards, setFlashcards] = useState([])
   const [categories, setCategories] = useState([]);
 
   const categoryEl = useRef();
@@ -22,8 +23,25 @@ function App() {
 
   // useEffect hook for whenever the page load, empty array as soon as component mounts
   useEffect(() => {
+
+  }, [])
+
+  function decodeString(str) {
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = str;
+    return textArea.value;
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // prevent default allows us to go here and not submit
     axios
-      .get('https://opentdb.com/api.php?amount=10')
+      .get('https://opentdb.com/api.php', {
+        params: {
+          amount: amountEl.current.value,
+          category: categoryEl.current.value
+        }
+      })
       .then(res => {
         // Call res.data (results is part of obj)
         setFlashcards(res.data.results.map((questionItem, index) => {
@@ -45,18 +63,6 @@ function App() {
         }));
         console.log(res.data);
       });
-  }, [])
-
-  function decodeString(str) {
-    const textArea = document.createElement('textarea');
-    textArea.innerHTML = str;
-    return textArea.value;
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    // prevent default allows us to go here and not submit
-
   }
 
   return (
@@ -87,29 +93,29 @@ function App() {
   );
 }
 
-const SAMPLE_FLASHCARDS = [
-  {
-    id: 1,
-    question: "What is 2 + 2?",
-    answer: "4",
-    options: [
-      '2',
-      '3',
-      '4',
-      '5'
-    ]
-  },
-  {
-    id: 2,
-    question: "Queston 2?",
-    answer: "4",
-    options: [
-      '2',
-      '3',
-      '4',
-      '5'
-    ]
-  }
-]
+// const SAMPLE_FLASHCARDS = [
+//   {
+//     id: 1,
+//     question: "What is 2 + 2?",
+//     answer: "4",
+//     options: [
+//       '2',
+//       '3',
+//       '4',
+//       '5'
+//     ]
+//   },
+//   {
+//     id: 2,
+//     question: "Queston 2?",
+//     answer: "4",
+//     options: [
+//       '2',
+//       '3',
+//       '4',
+//       '5'
+//     ]
+//   }
+// ]
 
 export default App;
