@@ -26,7 +26,6 @@ body {
   background-color: white;
   /* Makes sure if we flip front is on front and back is on back */
   transform-style: preserve-3d;
-  height: 150px;
   transition: 150ms;
   /* So user knows they can click on this */
   cursor: pointer;
