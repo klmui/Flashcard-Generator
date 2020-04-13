@@ -1,10 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // hooks
 import FlashcardList from './FlashcardList';
 import './app.css';
 import axios from 'axios';
 
 function App() {
+  // States
   const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
+  const [categories, setCategories] = useState([]);
+
+  const categoryEl = useRef();
+  const amountEl = useRef();
+
+  // Empty array is for very first load of page
+  useEffect(() => {
+    axios
+      .get('https://opentdb.com/api_category.php')
+      .then(res => {
+        setCategories(res.data.trivia_categories)
+      })
+  }, []);
 
   // useEffect hook for whenever the page load, empty array as soon as component mounts
   useEffect(() => {
@@ -39,10 +53,37 @@ function App() {
     return textArea.value;
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    // prevent default allows us to go here and not submit
+
+  }
+
   return (
-    <div className="container">
-      <FlashcardList flashcards={flashcards} />
-    </div>
+    <>
+      <form className="header" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="category">Category</label>
+          <select id="category" ref={categoryEl}>
+            {categories.map(category => {
+              return <option value={category.id} key={category.id}>{category.name}</option>
+            })}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="amount">Number of Questions</label>
+          <input type="number" id="amount" min="1" step="1" defaultValue={10} ref=
+          {amountEl} />
+        </div>
+        <div className="form-group">
+         <button className='btn'>Generate</button>
+        </div>
+      </form>
+
+      <div className="container">
+        <FlashcardList flashcards={flashcards} />
+      </div>
+    </>
   );
 }
 
