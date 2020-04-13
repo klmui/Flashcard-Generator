@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FlashcardList from './FlashcardList';
 import './app.css';
+import axios from 'axios';
 
 function App() {
   const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
+
+  // useEffect hook for whenever the page load, empty array as soon as component mounts
+  useEffect(() => {
+    axios.get('https://opentdb.com/api.php?amount=10')
+  }, [])
+
   return (
     <FlashcardList flashcards={flashcards} />
   );
