@@ -1,5 +1,14 @@
 body {
   background-color: #C8D0D2;
+  margin: 0;
+}
+
+.card-grid {
+  display: grid;
+  align-items: center;
+  /* automatically put as many cols in the row. At a min its 200px, at a max its just the whole row */
+  grid-template-columns: repeat(auto-fill, minMax(200px, 1fr));
+  gap: 1rem;
 }
 
 .card {

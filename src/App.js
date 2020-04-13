@@ -13,10 +13,14 @@ function App() {
       .then(res => {
         // Call res.data (results is part of obj)
         setFlashcards(res.data.results.map((questionItem, index) => {
-          const answer = questionItem.correct_answer;
+          const answer = decodeString(questionItem.correct_answer);
           // Incorrect answers at front and then correct answer last
           // Spread operator makes deep copy and concats
-          const options = [...questionItem.incorrect_answers, answer];
+          const options = [
+            ...questionItem.incorrect_answers.map(a => decodeString(a)
+            ), 
+            answer
+          ];
           return {
             id: `${index}-${Date.now()}`,
             question: decodeString(questionItem.question),
