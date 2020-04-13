@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 export default function Flashcard({ flashcard }) {
   // By default set to false because we want to show front side
